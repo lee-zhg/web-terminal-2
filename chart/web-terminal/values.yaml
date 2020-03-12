@@ -1,7 +1,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-participantCount: 5
-tlsSecret: testing-cluster
-fullDomain: testing-cluster.us-east.containers.appdomain.cloud
+participantCount: 2
+tlsSecret: leez-mycluster-503555-5290c8c8e5797924dc1ad5d1b85b37c0-0000 
+fullDomain: leez-mycluster-503555-5290c8c8e5797924dc1ad5d1b85b37c0-0000.us-south.containers.appdomain.cloud
 repository: ibmappmodernization/web-terminal
-tag: nodejs10
+tag: kafka-python-helm3
