@@ -121,7 +121,15 @@ You should see that you are connected to your cluster.
 ```bash
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-helm init --upgrade
+```
+
+```
+helm init --upgrade (** DON'T RUN THIS COMMAND. This command fails due to Helm bug. Instead, execute the command below. **)
+
+helm init --service-account tiller --override spec.selector.matchLabels.'name'='tiller',spec.selector.matchLabels.'app'='helm' --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | kubectl apply -f -
+```
+
+```
 kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 ```
 
@@ -257,6 +265,30 @@ kubectl delete -f scrub-dind.yaml
 ```
 
 This will delete the pod that purges the file system, and you are ready to go again.
+
+
+## Reference
+
+The commands below help build correct container image.
+
+  ```
+  docker image build -t ibmappmodernization/web-terminal:kafka-python-helm3 .
+
+  docker push ibmappmodernization/web-terminal:kafka-python-helm3
+
+  docker container run -t ibmappmodernization/web-terminal:kafka-python-helm3 top
+
+  docker  container ls
+
+  docker container exec -it 9012a3cf98d0 bash
+  ```
+
+Below are the container images created in time sequence. Oldest is on the top of the list
+
+  ```
+  istio146-helm311
+  ```
+
 
 ## Warnings
 
